@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Julio Cesar – Desenvolvedor Full Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF1F5;--surface:#fff;--ink:#101B33;--muted:#51607A;--line:#C9D3DF;
+  --accent:#2B50E6;--on:#fff;--soft:#DCE5FB;--amber:#E8920F;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1626;--surface:#18213A;--ink:#E8EDF7;--muted:#9AA8C4;--line:#2C3858;--accent:#7C9BFF;--on:#0F1626;--soft:#22305A;--amber:#FFB74D;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1626;--surface:#18213A;--ink:#E8EDF7;--muted:#9AA8C4;--line:#2C3858;--accent:#7C9BFF;--on:#0F1626;--soft:#22305A;--amber:#FFB74D;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.6}
+a{color:inherit}button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
+.logo{font-family:var(--display);font-weight:800;font-size:1.25rem;text-decoration:none}
+.right{display:flex;align-items:center;gap:22px;font-weight:500}
+.right a{text-decoration:none;color:var(--muted)}.right a:hover{color:var(--ink)}
+.theme{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.9rem}
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center;padding:48px 0 96px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.5rem,6vw,4.5rem);line-height:1.02;letter-spacing:-.03em;margin:0 0 22px}
+.lead{max-width:33rem;color:var(--muted);font-size:1.15rem;margin:0 0 28px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:13px 22px;border-radius:10px;font-weight:600;text-decoration:none;border:2px solid var(--accent);background:none}
+.btn.main{background:var(--accent);color:var(--on)}.btn.ghost{border-color:var(--line)}.btn:hover{border-color:var(--ink)}
+.avail{display:flex;align-items:center;gap:10px;margin-top:26px;color:var(--muted);font-size:.98rem}
+.avail i{width:10px;height:10px;border-radius:50%;background:#1FA971;box-shadow:0 0 0 4px rgba(31,169,113,.2)}
+.stack{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+.stack h2{font-family:var(--display);font-size:1rem;font-weight:600;color:var(--muted);margin:0 0 20px}
+.flow{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.rail{position:absolute;left:12.5%;right:12.5%;top:8px;height:2px;background:var(--line)}
+.pk{position:absolute;top:0;left:12.5%;width:18px;height:18px;border-radius:50%;background:var(--amber);transform:translateX(-50%);box-shadow:0 0 0 5px color-mix(in srgb,var(--amber) 28%,transparent);transition:left .55s cubic-bezier(.6,0,.3,1);z-index:2}
+.node{position:relative;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 0 4px;color:var(--muted);font-weight:600;font-size:.95rem}
+.dot{width:18px;height:18px;border-radius:50%;background:var(--surface);border:2px solid var(--line);z-index:1;transition:background .2s,border-color .2s}
+.node[aria-pressed="true"]{color:var(--ink)}.node[aria-pressed="true"] .dot{background:var(--accent);border-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:20px 0 18px;min-height:74px;align-content:flex-start}
+.chips li{background:var(--soft);border-radius:999px;padding:5px 14px;font-weight:600;font-size:.93rem}
+.run{width:100%;margin-bottom:14px}
+pre{margin:0;background:var(--ink);color:var(--bg);border-radius:12px;padding:16px 18px;font:.9rem/1.6 var(--mono);overflow-x:auto;min-height:150px}
+pre b{color:var(--amber);font-weight:600}
+section{padding:80px 0;border-top:1px solid var(--line)}
+h2.t{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.02em;line-height:1.1;margin:0 0 12px}
+.sub{color:var(--muted);margin:0 0 30px;max-width:36rem}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.f{background:none;border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-weight:600;font-size:.95rem}
+.f[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.card svg{display:block;width:100%;height:auto;border-bottom:1px solid var(--line)}
+.card div{padding:22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h3{font-family:var(--display);font-size:1.4rem;margin:0}
+.card p{margin:0;color:var(--muted)}
+.tags{font-weight:600;font-size:.92rem}
+.links{display:flex;gap:18px;font-weight:600;margin-top:auto;padding-top:6px}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.about p{margin:0 0 16px;max-width:34rem}
+.how{display:grid;gap:18px;margin:0}.how dt{font-family:var(--display);font-weight:600;font-size:1.1rem}.how dd{margin:2px 0 0;color:var(--muted)}
+.tl{list-style:none;margin:0;padding:0 0 0 26px;border-left:2px solid var(--line);display:grid;gap:30px}
+.tl li{position:relative}
+.tl li::before{content:"";position:absolute;left:-34px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
+.tl time{color:var(--muted);font-weight:600;font-size:.95rem}
+.tl h3{font-family:var(--display);font-size:1.25rem;margin:2px 0 4px}.tl p{margin:0;color:var(--muted)}
+.contact{background:var(--accent);color:var(--on);border-radius:22px;padding:52px 40px;margin:0 0 56px}
+.contact h2{font-family:var(--display);font-size:clamp(1.9rem,4.6vw,3.1rem);line-height:1.06;letter-spacing:-.02em;margin:0 0 14px;max-width:30rem}
+.contact p{margin:0 0 26px;max-width:30rem;opacity:.9}
+.contact .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.contact .btn{background:var(--on);color:var(--accent);border-color:var(--on)}
+.contact .btn.ghost{background:none;color:var(--on)}
+.contact .msg{font-weight:600;min-height:1.5em;margin-top:14px}
+footer{padding:0 0 40px;color:var(--muted);font-size:.95rem}
+@media (max-width:800px){.hero,.about,.grid{grid-template-columns:1fr}.hero{gap:36px;padding-top:20px}.right a{display:none}.contact{padding:38px 22px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pk,.dot{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="logo" href="#topo">Julio Cesar</a>
+  <div class="right"><a href="#projetos">Projetos</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a><button class="theme" id="theme" type="button">Tema</button></div>
+</header>
+<main id="topo">
+  <div class="hero">
+    <div>
+      <h1>Eu construo do clique ao banco de dados.</h1>
+      <p class="lead">Sou desenvolvedor full stack: cuido da interface, da API, dos dados e da publicação. Clique em “Enviar requisição” para ver uma chamada passar por cada camada da minha stack.</p>
+      <div class="btns"><a class="btn main" href="#projetos">Ver projetos</a><a class="btn ghost" href="#contato">Falar comigo</a></div>
+      <div class="avail"><i></i>Disponível para novas oportunidades</div>
+    </div>
+    <div class="stack">
+      <h2>Do navegador ao deploy</h2>
+      <div class="flow" id="flow"><div class="rail"></div><div class="pk" id="pk"></div></div>
+      <ul class="chips" id="chips" aria-live="polite"></ul>
+      <button class="btn main run" id="run" type="button">Enviar requisição</button>
+      <pre id="out" aria-live="polite"></pre>
+    </div>
+  </div>
+
+  <section id="projetos">
+    <h2 class="t">Projetos que estão no ar</h2>
+    <p class="sub">Uma seleção de trabalhos que cobrem front-end, back-end e banco de dados. Filtre pelo tipo de projeto.</p>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="sobre">
+    <h2 class="t">Sobre mim</h2>
+    <p class="sub">Transformo ideias em produtos que as pessoas realmente usam, com código simples de ler e fácil de manter.</p>
+    <div class="about">
+      <ol class="tl">
+        <li><time>2026</time><h3>Desenvolvedor full stack freelancer</h3><p>Dois projetos desenvolvidos para clientes ao longo do ano.</p></li>
+      </ol>
+      <dl class="how">
+        <div><dt>Entregas curtas</dt><dd>Divido o trabalho em partes pequenas e publico com frequência.</dd></div>
+        <div><dt>Código revisado e testado</dt><dd>Testes automatizados no que importa e revisão de código em todo o time.</dd></div>
+        <div><dt>Deploy automático</dt><dd>Cada alteração passa por verificação e vai para o ar sem trabalho manual.</dd></div>
+        <div><dt>Comunicação clara</dt><dd>Explico decisões técnicas em linguagem que todo o time entende.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="contato" style="border-top:0;padding-top:0">
+    <div class="contact">
+      <h2>Tem um projeto ou uma vaga em mente?</h2>
+      <p>Me conte o que você precisa. Respondo em até dois dias úteis.</p>
+      <div class="row"><a class="btn" href="mailto:jcesar.software@gmail.com">Enviar e-mail</a><button class="btn ghost" id="copy" type="button">Copiar e-mail</button><a class="btn ghost" href="https://github.com/juliopydev" target="_blank" rel="noopener">GitHub</a></div>
+      <div class="msg" id="msg" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+<footer>© 2026 Julio Cesar. Feito com HTML, CSS e JavaScript.</footer>
+</div>
+<script>
+var L=[
+ {n:"Interface",t:["React","Next.js","TypeScript","Tailwind CSS"]},
+ {n:"API",t:["Node.js","Express","REST","JWT"]},
+ {n:"Banco",t:["PostgreSQL","Prisma","Redis"]},
+ {n:"Deploy",t:["Vercel","Docker","GitHub Actions"]}];
+var flow=document.getElementById("flow"),pk=document.getElementById("pk"),chips=document.getElementById("chips"),out=document.getElementById("out"),run=document.getElementById("run");
+var nodes=L.map(function(l,i){
+  var b=document.createElement("button");b.type="button";b.className="node";
+  b.innerHTML='<i class="dot"></i><span>'+l.n+'</span>';
+  b.onclick=function(){go(i,true)};flow.appendChild(b);return b;});
+function go(i,done){
+  nodes.forEach(function(n,k){n.setAttribute("aria-pressed",k===i?"true":"false")});
+  pk.style.left=((i+.5)*25)+"%";
+  chips.innerHTML="";L[i].t.forEach(function(x){var li=document.createElement("li");li.textContent=x;chips.appendChild(li)});
+  out.innerHTML='{\n  <b>"status"</b>: '+(done?'200':'"processando..."')+',\n  <b>"nome"</b>: "Julio Cesar",\n  <b>"camada"</b>: "'+L[i].n+'",\n  <b>"tecnologias"</b>: ['+L[i].t.map(function(x){return '"'+x+'"'}).join(", ")+'],\n  <b>"disponivel"</b>: true\n}';
+}
+var busy=false;
+function play(){
+  if(busy)return;busy=true;run.disabled=true;
+  var i=0;(function step(){go(i,i===L.length-1);
+    if(i<L.length-1){i++;setTimeout(step,matchMedia("(prefers-reduced-motion:reduce)").matches?0:750)}else{busy=false;run.disabled=false}})();
+}
+run.onclick=play;go(0,false);
+setTimeout(play,700);
+
+var P=[
+ {t:"Painel de pedidos",g:"painel-de-pedidos",c:"Full stack",d:"Sistema para acompanhar pedidos em tempo real, com login, níveis de acesso e relatórios exportáveis. Substituiu a conferência manual de planilhas.",s:"Next.js, Node.js, PostgreSQL",a:"Ver online",k:0,u:"projetos/painel-de-pedidos/"},
+ {t:"API de agendamentos",g:"api-de-agendamentos",c:"Back-end",d:"API REST que gerencia horários, evita conflitos de agenda e envia lembretes por e-mail. Documentada e com testes automatizados.",s:"Express, Prisma, Redis, Docker",a:"Ver documentação",k:1,u:"projetos/api-de-agendamentos/"},
+ {t:"App de finanças pessoais",g:"app-de-financas",c:"Full stack",d:"Aplicativo web para registrar gastos, definir metas e visualizar o mês em gráficos. Funciona bem no celular.",s:"React, TypeScript, Supabase",a:"Ver online",k:2,u:"projetos/app-de-financas/"},
+ {t:"Biblioteca de componentes",g:"biblioteca-de-componentes",c:"Front-end",d:"Conjunto de componentes acessíveis e documentados, usado em três produtos diferentes para manter o visual consistente.",s:"React, Storybook, Tailwind CSS",a:"Ver Storybook",k:3,u:"projetos/biblioteca-de-componentes/"}];
+function art(k){
+  var b='<svg viewBox="0 0 400 190" role="img" aria-hidden="true"><rect width="400" height="190" fill="var(--soft)"/>',e="</svg>",x="";
+  if(k==0){[60,100,76,130,104,150].forEach(function(h,i){x+='<rect x="'+(48+i*52)+'" y="'+(160-h)+'" width="32" height="'+h+'" rx="5" fill="'+(i==5?'var(--amber)':'var(--accent)')+'"/>'})}
+  if(k==1){[[40,200],[70,260],[70,180],[100,300],[130,220],[130,120]].forEach(function(r,i){x+='<rect x="'+(i==0?40:i%2?70:70)+'" y="'+(28+i*24)+'" width="'+r[1]+'" height="10" rx="5" fill="'+(i==3?'var(--amber)':'var(--accent)')+'" opacity="'+(i==3?1:.75)+'"/>'});x+='<rect x="300" y="36" width="60" height="100" rx="8" fill="var(--surface)"/>'}
+  if(k==2){x='<circle cx="140" cy="95" r="52" fill="none" stroke="var(--surface)" stroke-width="22"/><circle cx="140" cy="95" r="52" fill="none" stroke="var(--accent)" stroke-width="22" stroke-dasharray="190 400" transform="rotate(-90 140 95)"/><circle cx="140" cy="95" r="52" fill="none" stroke="var(--amber)" stroke-width="22" stroke-dasharray="70 400" stroke-dashoffset="-190" transform="rotate(-90 140 95)"/><rect x="236" y="62" width="120" height="12" rx="6" fill="var(--accent)"/><rect x="236" y="92" width="90" height="12" rx="6" fill="var(--amber)"/><rect x="236" y="122" width="105" height="12" rx="6" fill="var(--surface)"/>'}
+  if(k==3){x='<rect x="40" y="34" width="150" height="42" rx="21" fill="var(--accent)"/><rect x="210" y="34" width="150" height="42" rx="8" fill="var(--surface)"/><rect x="40" y="98" width="320" height="16" rx="8" fill="var(--surface)"/><rect x="40" y="130" width="90" height="26" rx="13" fill="var(--amber)"/><rect x="144" y="130" width="90" height="26" rx="13" fill="var(--surface)"/>'}
+  return b+x+e;}
+var cats=["Todos","Full stack","Back-end","Front-end"],fb=document.getElementById("filters"),grid=document.getElementById("grid");
+function show(c){
+  [].forEach.call(fb.children,function(b){b.setAttribute("aria-pressed",b.textContent===c?"true":"false")});
+  grid.innerHTML=P.filter(function(p){return c=="Todos"||p.c==c}).map(function(p){
+    return '<article class="card">'+art(p.k)+'<div><h3>'+p.t+'</h3><p>'+p.d+'</p><p class="tags">'+p.s+'</p><div class="links"><a '+(p.u?'href="'+p.u+'" target="_blank" rel="noopener"':'href="#"')+'>'+p.a+'</a><a href="https://github.com/juliopydev/meu-portfolio/tree/main/projetos/'+p.g+'" target="_blank" rel="noopener">Código no GitHub</a></div></div></article>'}).join("");
+}
+cats.forEach(function(c){var b=document.createElement("button");b.className="f";b.type="button";b.textContent=c;b.onclick=function(){show(c)};fb.appendChild(b)});
+show("Todos");
+
+var r=document.documentElement;
+document.getElementById("theme").onclick=function(){
+  var cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+  r.setAttribute("data-theme",cur=="dark"?"light":"dark")};
+document.getElementById("copy").onclick=function(){
+  var m=document.getElementById("msg"),e="jcesar.software@gmail.com";
+  try{navigator.clipboard.writeText(e).then(function(){m.textContent="E-mail copiado."},function(){m.textContent="Copie manualmente: "+e})}catch(x){m.textContent="Copie manualmente: "+e}};
+</script>
+</body>
+</html>

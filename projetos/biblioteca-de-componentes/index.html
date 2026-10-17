@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prisma UI – biblioteca de componentes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F3F6;--surface:#fff;--ink:#16202E;--muted:#5C6879;--line:#D5DBE4;--p:#0E8F78;--po:#fff;--r:10px;--r2:14px;
+  --pos:#13915F;--neg:#D42C5E;--amber:#D98200;--info:#2B6CE6;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E141D;--surface:#161F2C;--ink:#E8EEF7;--muted:#97A4B8;--line:#2A3649;--pos:#4FD6A0;--neg:#FF7B9C;--amber:#FFB74D;--info:#7BA6FF;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E141D;--surface:#161F2C;--ink:#E8EEF7;--muted:#97A4B8;--line:#2A3649;--pos:#4FD6A0;--neg:#FF7B9C;--amber:#FFB74D;--info:#7BA6FF;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--p);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+.bar{display:flex;flex-wrap:wrap;gap:14px 24px;justify-content:space-between;align-items:center;padding:18px 0}
+.brand{font-family:var(--display);font-weight:800;font-size:1.35rem;display:flex;align-items:center;gap:10px}
+.logo{width:30px;height:30px;background:conic-gradient(var(--p),var(--info),var(--neg),var(--p));border-radius:9px}
+.demo{font:600 .78rem var(--body);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted)}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;border-radius:999px;padding:6px 14px;font-weight:600;font-size:.9rem;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--p);color:var(--po)}
+.tm{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-weight:600;font-size:.9rem}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,4.6vw,3.2rem);letter-spacing:-.03em;line-height:1.05;margin:26px 0 12px;max-width:44rem}
+.lead{color:var(--muted);font-size:1.1rem;max-width:40rem;margin:0 0 30px}
+.shell{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:start;margin-bottom:60px}
+nav.side{display:grid;gap:4px;position:sticky;top:12px}
+nav.side b{font-size:.82rem;color:var(--muted);margin:10px 10px 4px}
+nav.side button{text-align:left;background:none;border:0;border-radius:10px;padding:9px 12px;font-weight:600;color:var(--muted)}
+nav.side button:hover{color:var(--ink)}
+nav.side button[aria-current="true"]{background:var(--surface);color:var(--ink);box-shadow:inset 3px 0 0 var(--p)}
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;min-width:0}
+.doc h2{font-family:var(--display);font-size:1.9rem;margin:0 0 4px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.doc h3{font-family:var(--display);font-size:1.05rem;margin:26px 0 10px}
+.doc>p{color:var(--muted);margin:0 0 20px}
+.stg{font:600 .75rem var(--body);background:color-mix(in srgb,var(--pos) 18%,transparent);color:var(--pos);border-radius:999px;padding:2px 10px}
+.canvas{background:var(--bg);background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:16px 16px;border:1px solid var(--line);border-radius:14px;min-height:170px;display:grid;place-items:center;padding:28px}
+.canvas>*{max-width:100%}
+.props{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.props label{display:grid;gap:4px;font-weight:600;font-size:.88rem}
+.props .ck{display:flex;align-items:center;gap:8px;align-self:end;padding-bottom:9px}
+.props input[type=checkbox]{width:18px;height:18px;accent-color:var(--p)}
+.props select,.props input[type=text]{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.code{position:relative}
+pre{margin:0;background:#0F1724;color:#E4ECF8;border-radius:12px;padding:16px 18px;font:.88rem/1.65 var(--mono);overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.cp{position:absolute;top:10px;right:10px;background:#26344A;color:#fff;border:0;border-radius:8px;padding:5px 12px;font-weight:600;font-size:.82rem}
+.a11y{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.a11y li{display:flex;gap:10px}.a11y li::before{content:"✓";color:var(--pos);font-weight:800}
+/* componentes */
+.u-btn{border:2px solid transparent;border-radius:var(--r);font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:filter .15s}
+.u-btn.sm{padding:6px 14px;font-size:.88rem}.u-btn.md{padding:10px 20px}.u-btn.lg{padding:14px 28px;font-size:1.1rem}
+.u-btn.primario{background:var(--p);color:var(--po)}
+.u-btn.secundario{background:none;border-color:var(--p);color:var(--p)}
+.u-btn.fantasma{background:none;color:var(--p)}.u-btn.fantasma:hover{background:color-mix(in srgb,var(--p) 12%,transparent)}
+.u-btn.perigo{background:var(--neg);color:#fff}
+.u-btn:hover:not(:disabled){filter:brightness(1.08)}.u-btn:disabled{opacity:.5;cursor:not-allowed}
+.sp{width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.u-field{width:min(100%,320px);display:grid;gap:6px}
+.u-field label{font-weight:600;font-size:.92rem}
+.u-field input{background:var(--surface);border:2px solid var(--line);border-radius:var(--r2);padding:10px 14px;width:100%}
+.u-field input:focus{border-color:var(--p);outline:0}
+.u-field.erro input{border-color:var(--neg)}.u-field.sucesso input{border-color:var(--pos)}
+.u-field .h{font-size:.86rem;color:var(--muted)}.u-field.erro .h{color:var(--neg)}.u-field.sucesso .h{color:var(--pos)}
+.u-field input:disabled{opacity:.5}
+.u-alert{display:flex;gap:12px;width:min(100%,420px);border:1px solid var(--c);background:color-mix(in srgb,var(--c) 10%,var(--surface));border-radius:var(--r2);padding:14px 16px}
+.u-alert.info{--c:var(--info)}.u-alert.sucesso{--c:var(--pos)}.u-alert.aviso{--c:var(--amber)}.u-alert.erro{--c:var(--neg)}
+.u-alert .ic{flex:0 0 24px;height:24px;border-radius:50%;background:var(--c);color:var(--surface);display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.u-alert strong{display:block}.u-alert p{margin:2px 0 0;color:var(--muted);font-size:.93rem}
+.u-sw{display:flex;align-items:center;gap:12px;font-weight:500}
+.sw{width:46px;height:26px;border-radius:999px;border:0;background:var(--line);position:relative;padding:0;transition:background .2s}
+.sw span{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw[aria-checked="true"]{background:var(--p)}.sw[aria-checked="true"] span{transform:translateX(20px)}
+.sw:disabled{opacity:.5;cursor:not-allowed}
+.u-badge{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:3px 12px;font-weight:600;font-size:.88rem;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
+.u-badge i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.u-badge.neutro{--c:var(--muted)}.u-badge.sucesso{--c:var(--pos)}.u-badge.aviso{--c:var(--amber)}.u-badge.erro{--c:var(--neg)}.u-badge.destaque{--c:var(--p)}
+/* tokens */
+.sws{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.swc{border:1px solid var(--line);border-radius:12px;overflow:hidden}.swc div{height:56px}.swc span{display:block;padding:8px 10px;font:.8rem var(--mono)}
+.esc{display:flex;align-items:flex-end;gap:10px}.esc div{background:var(--p);border-radius:4px;width:34px;color:var(--po);font:.7rem var(--mono);text-align:center;padding-top:3px}
+.rd{display:flex;gap:14px}.rd div{border:2px solid var(--p);width:90px;height:60px;display:grid;place-items:center;font:.78rem var(--mono)}
+@media (max-width:820px){.shell{grid-template-columns:1fr}nav.side{position:static;display:flex;overflow-x:auto;gap:6px}nav.side b{display:none}nav.side button{white-space:nowrap}.doc{padding:18px}}
+@media (prefers-reduced-motion:reduce){.sp{animation:none}.sw,.sw span,.u-btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="bar">
+  <div class="brand"><span class="logo" aria-hidden="true"></span>Prisma UI <span class="demo">Demonstração</span></div>
+  <div class="ctl"><div class="seg" id="prod" role="group" aria-label="Produto"></div><button class="tm" id="theme" type="button">Tema</button></div>
+</header>
+<h1>Um conjunto de componentes, três produtos com a sua cara.</h1>
+<p class="lead">Troque o produto no topo e veja os mesmos componentes assumirem as cores e os cantos de Casa Brasa, Hora Certa ou Bolso. Mude as propriedades e copie o código gerado.</p>
+<div class="shell">
+  <nav class="side" id="side" aria-label="Componentes"></nav>
+  <main class="doc" id="doc"></main>
+</div>
+</div>
+<script>
+var $=function(i){return document.getElementById(i)},RT=document.documentElement;
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+var PR=[{n:"Casa Brasa",p:"#0E8F78",po:"#fff",d:"#3FD1B5",dp:"#0C1A18",r:"10px",r2:"14px"},{n:"Hora Certa",p:"#6B3FE8",po:"#fff",d:"#A58BFF",dp:"#12101F",r:"6px",r2:"10px"},{n:"Bolso",p:"#E0356F",po:"#fff",d:"#FF6B9A",dp:"#171019",r:"999px",r2:"18px"}];
+var LB={primario:"primário",secundario:"secundário",fantasma:"fantasma",perigo:"perigo",sucesso:"sucesso",aviso:"aviso",erro:"erro",info:"info",neutro:"neutro",destaque:"destaque",normal:"normal"};
+var C=[
+{id:"botao",n:"Botão",nome:"Botao",d:"Dispara uma ação. Escolha a variante conforme a importância: uma primária por tela, as demais para ações secundárias.",
+ c:[{k:"variante",t:"s",o:["primario","secundario","fantasma","perigo"],v:"primario"},{k:"tamanho",t:"s",o:["sm","md","lg"],v:"md"},{k:"texto",t:"t",v:"Salvar alterações",f:1},{k:"carregando",t:"b",v:false},{k:"desabilitado",t:"b",v:false}],
+ r:function(p){var ds=p.desabilitado||p.carregando;return'<button class="u-btn '+p.variante+' '+p.tamanho+'" type="button"'+(ds?' disabled':'')+(p.carregando?' aria-busy="true"':'')+'>'+(p.carregando?'<span class="sp" aria-hidden="true"></span>':'')+esc(p.texto)+'</button>'},
+ a:["Usa o elemento button nativo: funciona com Tab, Enter e Espaço.","Estado de carregamento usa aria-busy e bloqueia cliques repetidos.","Foco visível com contorno de 3 px em todas as variantes."]},
+{id:"campo",n:"Campo de texto",nome:"Campo",d:"Entrada de uma linha com rótulo, texto de ajuda e estados de erro e sucesso.",
+ c:[{k:"rotulo",t:"t",v:"E-mail"},{k:"dica",t:"t",v:"voce@exemplo.com"},{k:"ajuda",t:"t",v:"Usaremos só para enviar o recibo."},{k:"estado",t:"s",o:["normal","erro","sucesso"],v:"normal"},{k:"desabilitado",t:"b",v:false}],
+ r:function(p){return'<div class="u-field '+p.estado+'"><label for="cp">'+esc(p.rotulo)+'</label><input id="cp" type="text" placeholder="'+esc(p.dica)+'"'+(p.desabilitado?' disabled':'')+(p.estado=="erro"?' aria-invalid="true"':'')+' aria-describedby="ch"><div class="h" id="ch">'+esc(p.ajuda)+'</div></div>'},
+ a:["O rótulo é um label ligado ao campo, e não um placeholder.","O texto de ajuda é lido junto com o campo (aria-describedby).","O erro aparece como texto e usa aria-invalid, sem depender só da cor."]},
+{id:"alerta",n:"Alerta",nome:"Alerta",d:"Mensagem de feedback para confirmações, avisos e erros.",
+ c:[{k:"tipo",t:"s",o:["info","sucesso","aviso","erro"],v:"sucesso"},{k:"titulo",t:"t",v:"Agendamento confirmado"},{k:"texto",t:"t",v:"Enviamos um lembrete para o seu e-mail.",f:1}],
+ r:function(p){var i={info:"i",sucesso:"✓",aviso:"!",erro:"×"}[p.tipo];return'<div class="u-alert '+p.tipo+'" role="'+(p.tipo=="erro"||p.tipo=="aviso"?"alert":"status")+'"><span class="ic" aria-hidden="true">'+i+'</span><div><strong>'+esc(p.titulo)+'</strong><p>'+esc(p.texto)+'</p></div></div>'},
+ a:["Erros e avisos usam role alert; os demais usam role status.","O ícone é decorativo e o tipo sempre vem escrito no texto.","O leitor de tela anuncia a mensagem sem mover o foco."]},
+{id:"interruptor",n:"Interruptor",nome:"Interruptor",d:"Liga e desliga uma opção com efeito imediato. Clique no exemplo para testar.",
+ c:[{k:"rotulo",t:"t",v:"Receber lembretes por e-mail"},{k:"ligado",t:"b",v:true},{k:"desabilitado",t:"b",v:false}],
+ r:function(p){return'<div class="u-sw"><button class="sw" type="button" role="switch" aria-checked="'+p.ligado+'" aria-labelledby="swl"'+(p.desabilitado?' disabled':'')+' data-sw="1"><span></span></button><span id="swl">'+esc(p.rotulo)+'</span></div>'},
+ a:["Usa role switch com aria-checked, como esperam os leitores de tela.","O rótulo está ligado ao controle (aria-labelledby).","Funciona com teclado: Tab para focar e Espaço para alternar."]},
+{id:"distintivo",n:"Distintivo",nome:"Distintivo",d:"Rótulo curto que indica o status de um item, como um pedido ou um agendamento.",
+ c:[{k:"tom",t:"s",o:["neutro","sucesso","aviso","erro","destaque"],v:"sucesso"},{k:"texto",t:"t",v:"Confirmado",f:1},{k:"ponto",t:"b",v:true}],
+ r:function(p){return'<span class="u-badge '+p.tom+'">'+(p.ponto?'<i aria-hidden="true"></i>':'')+esc(p.texto)+'</span>'},
+ a:["Sempre leva texto: o significado nunca depende só da cor.","O ponto colorido é decorativo e fica oculto para leitores de tela.","Os tons usam as mesmas cores semânticas em todos os produtos."]}];
+var S={},cur="botao",pi=0;
+C.forEach(function(c){S[c.id]={};c.c.forEach(function(x){S[c.id][x.k]=x.v})});
+function dark(){var t=RT.getAttribute("data-theme");return t?t=="dark":matchMedia("(prefers-color-scheme:dark)").matches}
+function skin(){var p=PR[pi],d=dark(),s=RT.style;s.setProperty("--p",d?p.d:p.p);s.setProperty("--po",d?p.dp:p.po);s.setProperty("--r",p.r);s.setProperty("--r2",p.r2);
+  [].forEach.call($("prod").children,function(b,i){b.setAttribute("aria-pressed",i==pi)})}
+PR.forEach(function(p,i){var b=document.createElement("button");b.type="button";b.textContent=p.n;b.onclick=function(){pi=i;skin();if(cur=="tokens")page()};$("prod").appendChild(b)});
+function code(c){var p=S[c.id],at="",ch="";
+  c.c.forEach(function(x){if(x.f)ch=p[x.k];else if(x.t=="b"){if(p[x.k])at+=" "+x.k}else at+=" "+x.k+'="'+p[x.k]+'"'});
+  return ch!==""?"<"+c.nome+at+">"+ch+"</"+c.nome+">":"<"+c.nome+at+" />"}
+function upd(c){$("cv").innerHTML=c.r(S[c.id]);$("cd").textContent=code(c)}
+function page(){
+  [].forEach.call($("side").querySelectorAll("button"),function(b){b.setAttribute("aria-current",b.dataset.id==cur?"true":"false")});
+  if(cur=="tokens"){
+    var h='<h2>Tokens de design</h2><p>Valores que mudam de um produto para outro. Os componentes só leem esses tokens, por isso o visual fica consistente.</p><h3>Cores de '+PR[pi].n+'</h3><div class="sws">'+[["--p","Acento"],["--po","Texto no acento"],["--pos","Sucesso"],["--amber","Aviso"],["--neg","Erro"],["--info","Informação"]].map(function(t){return'<div class="swc"><div style="background:var('+t[0]+')"></div><span>'+t[0]+'<br>'+t[1]+'</span></div>'}).join("")+'</div><h3>Cantos</h3><div class="rd"><div style="border-radius:var(--r)">--r</div><div style="border-radius:var(--r2)">--r2</div></div><h3>Espaçamento</h3><div class="esc">'+[4,8,12,16,24,32].map(function(n){return'<div style="height:'+n*2+'px">'+n+'</div>'}).join("")+'</div><h3>Tipografia</h3><div style="font-family:var(--display);font-size:1.8rem;font-weight:800">Bricolage Grotesque</div><div>Instrument Sans para textos e interfaces.</div>';
+    $("doc").innerHTML=h;return}
+  var c=C.filter(function(x){return x.id==cur})[0],p=S[c.id];
+  $("doc").innerHTML='<h2>'+c.n+' <span class="stg">Estável</span></h2><p>'+c.d+'</p><div class="canvas" id="cv"></div><h3>Propriedades</h3><div class="props" id="pp"></div><h3>Código</h3><div class="code"><pre id="cd"></pre><button class="cp" id="cp2" type="button">Copiar</button></div><h3>Acessibilidade</h3><ul class="a11y">'+c.a.map(function(x){return"<li>"+x+"</li>"}).join("")+'</ul>';
+  $("pp").innerHTML=c.c.map(function(x){
+    if(x.t=="b")return'<label class="ck"><input type="checkbox" data-k="'+x.k+'"'+(p[x.k]?" checked":"")+'>'+x.k+'</label>';
+    if(x.t=="s")return'<label>'+x.k+'<select data-k="'+x.k+'">'+x.o.map(function(o){return'<option value="'+o+'"'+(p[x.k]==o?" selected":"")+'>'+(LB[o]||o)+'</option>'}).join("")+'</select></label>';
+    return'<label>'+x.k+'<input type="text" data-k="'+x.k+'" value="'+esc(p[x.k])+'"></label>'}).join("");
+  upd(c);
+}
+$("doc").addEventListener("input",function(e){var k=e.target.dataset.k;if(!k)return;var c=C.filter(function(x){return x.id==cur})[0];S[cur][k]=e.target.type=="checkbox"?e.target.checked:e.target.value;upd(c)});
+$("doc").addEventListener("click",function(e){
+  var c=C.filter(function(x){return x.id==cur})[0];
+  if(e.target.closest("[data-sw]")){var s=S[cur];s.ligado=!s.ligado;var k=$("pp").querySelector('[data-k="ligado"]');if(k)k.checked=s.ligado;upd(c);var n=$("cv").querySelector("[data-sw]");if(n)n.focus()}
+  if(e.target.id=="cp2"){var b=e.target,t=$("cd").textContent;try{navigator.clipboard.writeText(t).then(function(){b.textContent="Copiado"},function(){b.textContent="Selecione e copie"})}catch(x){b.textContent="Selecione e copie"}setTimeout(function(){b.textContent="Copiar"},1800)}
+});
+$("side").innerHTML='<b>Componentes</b>'+C.map(function(c){return'<button type="button" data-id="'+c.id+'">'+c.n+'</button>'}).join("")+'<b>Fundamentos</b><button type="button" data-id="tokens">Tokens</button>';
+$("side").onclick=function(e){if(e.target.dataset.id){cur=e.target.dataset.id;page()}};
+$("theme").onclick=function(){RT.setAttribute("data-theme",dark()?"light":"dark");skin()};
+matchMedia("(prefers-color-scheme:dark)").addEventListener("change",skin);
+skin();page();
+</script>
+</body>
+</html>

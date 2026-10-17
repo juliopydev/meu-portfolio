@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hora Certa – API de agendamentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F2F9;--surface:#fff;--ink:#231942;--muted:#605A7A;--line:#D8D3E6;--acc:#6B3FE8;--on:#fff;--soft:#E7DFFB;
+  --get:#2B6CE6;--post:#13915F;--del:#D6455D;--amber:#E8920F;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12101F;--surface:#1C1932;--ink:#ECE9F8;--muted:#A29CC0;--line:#332E55;--acc:#A58BFF;--on:#12101F;--soft:#2B2552;
+  --get:#7BA6FF;--post:#4FD6A0;--del:#FF7B93;--amber:#FFB74D;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12101F;--surface:#1C1932;--ink:#ECE9F8;--muted:#A29CC0;--line:#332E55;--acc:#A58BFF;--on:#12101F;--soft:#2B2552;
+  --get:#7BA6FF;--post:#4FD6A0;--del:#FF7B93;--amber:#FFB74D;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--display);font-weight:800;font-size:1.3rem}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--acc);color:var(--on);display:grid;place-items:center;font-size:1.05rem}
+.demo{font:600 .85rem var(--body);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 12px;color:var(--muted)}
+.b{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-weight:600;font-size:.95rem}
+.b:hover{border-color:var(--ink)}.b.pri{background:var(--acc);border-color:var(--acc);color:var(--on)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.1rem,5vw,3.5rem);letter-spacing:-.03em;line-height:1.04;margin:30px 0 14px;max-width:46rem}
+.lead{color:var(--muted);font-size:1.12rem;max-width:38rem;margin:0 0 34px}
+.main{display:grid;grid-template-columns:1.05fr 1fr;gap:20px;align-items:start}
+.pan{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+.pan h2{font-family:var(--display);font-size:1.3rem;margin:0 0 4px}
+.pan>p{margin:0 0 16px;color:var(--muted)}
+.pre{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.pre .b{padding:6px 12px;font-size:.88rem}
+.req{display:grid;grid-template-columns:110px 1fr;gap:8px;margin-bottom:8px}
+select,input,textarea{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%}
+input,textarea{font-family:var(--mono);font-size:.9rem}
+textarea{resize:vertical;min-height:130px;margin-bottom:12px}
+.res{display:flex;align-items:center;gap:12px;margin:18px 0 8px;font-weight:600}
+.st{border-radius:8px;padding:2px 12px;color:#fff;background:var(--muted);font-family:var(--mono);font-size:.9rem}
+.ms{color:var(--muted);font-weight:500;font-size:.9rem}
+pre{margin:0;background:var(--ink);color:var(--bg);border-radius:12px;padding:14px 16px;font:.85rem/1.6 var(--mono);overflow:auto;min-height:120px;max-height:300px}
+.sc{overflow-x:auto}
+.cal{display:grid;grid-template-columns:44px repeat(5,minmax(62px,1fr));gap:4px;min-width:400px}
+.cal b{font-size:.82rem;color:var(--muted);text-align:center;padding:2px 0}
+.cal .h{text-align:right;padding-right:6px;font-size:.8rem;color:var(--muted);align-self:center}
+.cell{border:1px dashed var(--line);background:none;border-radius:8px;min-height:38px;font-size:.78rem;color:var(--muted);padding:2px 4px}
+.cell:hover{border-color:var(--acc);color:var(--acc)}
+.cell.on{border:0;background:var(--soft);color:var(--ink);font-weight:600;cursor:default;border-left:4px solid var(--acc);text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cell.fl{animation:fl 1.2s ease-out}
+@keyframes fl{0%{background:var(--amber);transform:scale(1.06)}100%{transform:none}}
+.lem{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px;font-size:.9rem}
+.lem li{display:flex;justify-content:space-between;gap:10px;border-top:1px dashed var(--line);padding-top:8px}
+.lem span{color:var(--muted)}
+.low{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0 56px;align-items:start}
+.ep{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid var(--line)}
+.ep:first-of-type{border-top:0}
+.mt{font:700 .78rem var(--mono);color:#fff;border-radius:6px;padding:2px 8px;min-width:62px;text-align:center}
+.GET{background:var(--get)}.POST{background:var(--post)}.DELETE{background:var(--del)}
+.ep code{font:600 .9rem var(--mono)}.ep span{color:var(--muted);font-size:.92rem;display:block}
+.tl{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:8px}
+.tl li{display:flex;gap:10px;font-size:.95rem}.tl i{font-style:normal;width:1.2em;font-weight:800;color:var(--muted)}
+.tl li.ok i{color:var(--post)}.tl li.no i{color:var(--del)}
+.sum{font-weight:600;margin-left:12px}
+@media (max-width:900px){.main,.low{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.cell.fl{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="bar">
+  <div class="brand"><span class="mark" aria-hidden="true">🗓</span>Hora Certa <span class="demo">Demonstração</span></div>
+  <button class="b" id="theme" type="button">Tema</button>
+</header>
+<main>
+  <h1>Uma API que não deixa dois clientes no mesmo horário.</h1>
+  <p class="lead">Teste a API de agendamentos aqui mesmo: crie, consulte e cancele horários, force um conflito e veja a agenda e a fila de lembretes mudarem em seguida.</p>
+  <div class="main">
+    <section class="pan">
+      <h2>Playground da API</h2>
+      <p>Escolha um exemplo ou escreva sua própria requisição e clique em enviar.</p>
+      <div class="pre" id="pre"></div>
+      <div class="req"><select id="m" aria-label="Método"><option>GET</option><option>POST</option><option>DELETE</option></select><input id="p" aria-label="Caminho" spellcheck="false"></div>
+      <textarea id="bd" aria-label="Corpo da requisição em JSON" spellcheck="false"></textarea>
+      <button class="b pri" id="go" type="button">Enviar requisição</button>
+      <div class="res"><span class="st" id="st">aguardando</span><span class="ms" id="ms"></span></div>
+      <pre id="out" aria-live="polite">Nenhuma resposta ainda.</pre>
+    </section>
+    <section class="pan">
+      <h2>Agenda da semana</h2>
+      <p>Clique em um horário livre para preencher o exemplo de criação com ele.</p>
+      <div class="sc"><div class="cal" id="cal"></div></div>
+      <ul class="lem" id="lem"></ul>
+    </section>
+  </div>
+  <div class="low">
+    <section class="pan">
+      <h2>Endpoints</h2>
+      <p>Tudo em JSON, com códigos de status HTTP corretos.</p>
+      <div class="ep"><span class="mt GET">GET</span><div><code>/horarios?dia=2</code><span>Lista os horários livres de um dia (0 é segunda, 4 é sexta).</span></div></div>
+      <div class="ep"><span class="mt GET">GET</span><div><code>/agendamentos</code><span>Lista todos os agendamentos.</span></div></div>
+      <div class="ep"><span class="mt POST">POST</span><div><code>/agendamentos</code><span>Cria um agendamento. Devolve 409 e horários alternativos se o horário já estiver ocupado.</span></div></div>
+      <div class="ep"><span class="mt DELETE">DELETE</span><div><code>/agendamentos/:id</code><span>Cancela e libera o horário.</span></div></div>
+    </section>
+    <section class="pan">
+      <h2>Testes automatizados</h2>
+      <p>Estes testes rodam de verdade contra a lógica da API desta página.</p>
+      <ul class="tl" id="tl"></ul>
+      <button class="b pri" id="rt" type="button">Executar testes</button><span class="sum" id="sum"></span>
+    </section>
+  </div>
+</main>
+</div>
+<script>
+var DIAS=["Seg","Ter","Qua","Qui","Sex"],HS=[9,10,11,12,13,14,15,16];
+var SEED=[{id:101,cliente:"Carlos Lima",email:"carlos@exemplo.com",dia:1,hora:10,servico:"Consulta"},{id:102,cliente:"Ana Beatriz",email:"ana@exemplo.com",dia:0,hora:9,servico:"Retorno"},{id:103,cliente:"Rafael Costa",email:"rafael@exemplo.com",dia:3,hora:15,servico:"Consulta"},{id:104,cliente:"Juliana Prado",email:"juliana@exemplo.com",dia:2,hora:11,servico:"Avaliação"},{id:105,cliente:"Pedro Alves",email:"pedro@exemplo.com",dia:4,hora:13,servico:"Consulta"}];
+function mk(seed){
+  var B=seed.map(function(x){return Object.assign({},x)}),n=105;
+  function livres(d){return HS.filter(function(h){return!B.some(function(b){return b.dia==d&&b.hora==h})})}
+  var f=function(m,p,b){
+    var u=p.split("?"),path=u[0],q=new URLSearchParams(u[1]||""),x;
+    if(m=="GET"&&path=="/horarios"){var d=q.get("dia");
+      if(d===null||d===""||!(+d>=0&&+d<=4))return[422,{erro:"Informe dia de 0 (segunda) a 4 (sexta)."}];
+      return[200,{dia:+d,livres:livres(+d).map(function(h){return h+":00"})}]}
+    if(m=="GET"&&path=="/agendamentos")return[200,B];
+    if(m=="POST"&&path=="/agendamentos"){
+      b=b||{};var c=[];
+      if(!b.cliente)c.push("cliente");
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email||""))c.push("email");
+      if(!(b.dia>=0&&b.dia<=4))c.push("dia");
+      if(!(b.hora>=9&&b.hora<=16))c.push("hora (expediente das 9 às 16)");
+      if(c.length)return[422,{erro:"Dados inválidos.",campos:c}];
+      if(B.some(function(z){return z.dia==b.dia&&z.hora==b.hora}))return[409,{erro:"Horário já reservado.",sugestoes:livres(b.dia).filter(function(h){return h>b.hora}).concat(livres(b.dia)).slice(0,3).map(function(h){return h+":00"})}];
+      x={id:++n,cliente:b.cliente,email:b.email,dia:b.dia,hora:b.hora,servico:b.servico||"Consulta"};B.push(x);
+      return[201,Object.assign({},x,{lembrete:"E-mail agendado para 24 h antes."})]}
+    if(m=="DELETE"&&(x=path.match(/^\/agendamentos\/(\d+)$/))){
+      var i=B.findIndex(function(z){return z.id==x[1]});
+      if(i<0)return[404,{erro:"Agendamento não encontrado."}];B.splice(i,1);return[204,null]}
+    return[404,{erro:"Rota não encontrada."}];
+  };f.B=B;return f;
+}
+var API=mk(SEED),last="";
+var PRE=[
+ {n:"Ver horários livres",m:"GET",p:"/horarios?dia=2"},
+ {n:"Criar agendamento",m:"POST",p:"/agendamentos",b:{cliente:"Marina Souza",email:"marina@exemplo.com",dia:2,hora:14,servico:"Consulta"}},
+ {n:"Forçar conflito",m:"POST",p:"/agendamentos",b:{cliente:"Lucas Pires",email:"lucas@exemplo.com",dia:1,hora:10,servico:"Consulta"}},
+ {n:"E-mail inválido",m:"POST",p:"/agendamentos",b:{cliente:"Sofia Mendes",email:"sofia-sem-arroba",dia:3,hora:11}},
+ {n:"Cancelar agendamento",m:"DELETE",p:"/agendamentos/101"}];
+var $=function(i){return document.getElementById(i)};
+function load(x){$("m").value=x.m;$("p").value=x.p;$("bd").value=x.b?JSON.stringify(x.b,null,2):""}
+PRE.forEach(function(x){var b=document.createElement("button");b.type="button";b.className="b";b.textContent=x.n;b.onclick=function(){load(x)};$("pre").appendChild(b)});
+load(PRE[0]);
+var TXT={200:"200 OK",201:"201 Created",204:"204 No Content",404:"404 Not Found",409:"409 Conflict",422:"422 Unprocessable",400:"400 Bad Request"};
+$("go").onclick=function(){
+  var b=null,bad=false,m=$("m").value,t=$("bd").value.trim();
+  if(t&&m=="POST"){try{b=JSON.parse(t)}catch(e){bad=true}}
+  var ms=12+Math.floor(Math.random()*40);
+  $("st").textContent="enviando...";$("ms").textContent="";
+  setTimeout(function(){
+    var r=bad?[400,{erro:"O corpo não é um JSON válido."}]:API(m,$("p").value.trim(),b);
+    $("st").textContent=TXT[r[0]];$("st").style.background=r[0]<300?"var(--post)":r[0]<500&&r[0]!=409?"var(--del)":"var(--amber)";
+    $("ms").textContent=ms+" ms";
+    $("out").textContent=r[1]===null?"(sem conteúdo)":JSON.stringify(r[1],null,2);
+    if(r[0]==201)last=r[1].dia+"-"+r[1].hora;else last="";
+    render();
+  },250);
+};
+function render(){
+  var h='<b></b>'+DIAS.map(function(d){return'<b>'+d+'</b>'}).join("");
+  HS.forEach(function(hr){h+='<span class="h">'+hr+':00</span>';
+    DIAS.forEach(function(_,d){
+      var o=API.B.filter(function(z){return z.dia==d&&z.hora==hr})[0],fl=last==d+"-"+hr?" fl":"";
+      h+=o?'<div class="cell on'+fl+'" title="'+o.cliente+', '+o.servico+'">'+o.cliente.split(" ")[0]+'</div>':'<button class="cell" type="button" data-d="'+d+'" data-h="'+hr+'" aria-label="Horário livre, '+DIAS[d]+' '+hr+':00">livre</button>'})});
+  $("cal").innerHTML=h;
+  $("lem").innerHTML=API.B.slice().sort(function(a,b){return a.dia-b.dia||a.hora-b.hora}).slice(0,5).map(function(o){return'<li><div>'+o.email+'<span> lembrete 24 h antes</span></div><b>'+DIAS[o.dia]+', '+o.hora+':00</b></li>'}).join("")||"<li><span>Nenhum lembrete na fila.</span></li>";
+}
+$("cal").onclick=function(e){var c=e.target.closest(".cell[data-d]");if(!c)return;
+  load({m:"POST",p:"/agendamentos",b:{cliente:"Marina Souza",email:"marina@exemplo.com",dia:+c.dataset.d,hora:+c.dataset.h,servico:"Consulta"}});$("go").focus()};
+render();
+
+var G=function(d,h){return{cliente:"Teste",email:"t@exemplo.com",dia:d,hora:h}};
+var TESTS=[
+ ["Cria um agendamento válido e devolve 201",function(){return mk(SEED)("POST","/agendamentos",G(3,9))[0]==201}],
+ ["Recusa horário duplicado com 409",function(){return mk(SEED)("POST","/agendamentos",G(1,10))[0]==409}],
+ ["Sugere horários livres quando há conflito",function(){var r=mk(SEED)("POST","/agendamentos",G(1,10));return r[1].sugestoes.length>0&&r[1].sugestoes.indexOf("10:00")<0}],
+ ["Recusa e-mail inválido com 422",function(){var g=G(3,9);g.email="x";return mk(SEED)("POST","/agendamentos",g)[0]==422}],
+ ["Recusa horário fora do expediente",function(){return mk(SEED)("POST","/agendamentos",G(3,20))[0]==422}],
+ ["Lista só os horários realmente livres",function(){var r=mk(SEED)("GET","/horarios?dia=1");return r[1].livres.indexOf("10:00")<0&&r[1].livres.length==7}],
+ ["Cancelar libera o horário para outra pessoa",function(){var a=mk(SEED);return a("DELETE","/agendamentos/101")[0]==204&&a("POST","/agendamentos",G(1,10))[0]==201}],
+ ["Cancelar um agendamento inexistente devolve 404",function(){return mk(SEED)("DELETE","/agendamentos/999")[0]==404}]];
+function lista(){$("tl").innerHTML=TESTS.map(function(t){return'<li><i>○</i>'+t[0]+'</li>'}).join("")}
+lista();
+$("rt").onclick=function(){
+  lista();$("sum").textContent="";$("rt").disabled=true;var ok=0,i=0;
+  (function s(){
+    if(i>=TESTS.length){$("sum").textContent=ok+" de "+TESTS.length+" testes passando";$("rt").disabled=false;return}
+    var r=false;try{r=TESTS[i][1]()}catch(e){}
+    var li=$("tl").children[i];li.className=r?"ok":"no";li.firstChild.textContent=r?"✓":"✗";if(r)ok++;i++;
+    setTimeout(s,matchMedia("(prefers-reduced-motion:reduce)").matches?0:200)})();
+};
+var R=document.documentElement;
+$("theme").onclick=function(){
+  var c=R.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+  R.setAttribute("data-theme",c=="dark"?"light":"dark")};
+</script>
+</body>
+</html>
