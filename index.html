@@ -84,18 +84,39 @@ h2.t{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.6rem);letter-spacin
 footer{padding:0 0 40px;color:var(--muted);font-size:.95rem}
 @media (max-width:800px){.hero,.about,.grid{grid-template-columns:1fr}.hero{gap:36px;padding-top:20px}.right a{display:none}.contact{padding:38px 22px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pk,.dot{transition:none}}
+
+:root{--c2:#E0356F;--c3:#6B3FE8;--c4:#0E8F78}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c2:#FF6B9A;--c3:#A58BFF;--c4:#3FD1B5}}
+:root[data-theme="dark"]{--c2:#FF6B9A;--c3:#A58BFF;--c4:#3FD1B5}
+.hl{background:linear-gradient(transparent 62%,color-mix(in srgb,var(--amber) 55%,transparent) 62%)}
+.hero{background:radial-gradient(600px 320px at 0% 0%,color-mix(in srgb,var(--c3) 20%,transparent),transparent 70%),radial-gradient(520px 320px at 100% 15%,color-mix(in srgb,var(--c2) 18%,transparent),transparent 70%),radial-gradient(520px 320px at 55% 100%,color-mix(in srgb,var(--c4) 18%,transparent),transparent 70%);border-radius:28px;padding:56px 36px 64px;margin-bottom:24px}
+.stack{border-top:5px solid var(--amber)}
+.chips li:nth-child(4n+1){background:color-mix(in srgb,var(--accent) 22%,transparent)}
+.chips li:nth-child(4n+2){background:color-mix(in srgb,var(--c3) 22%,transparent)}
+.chips li:nth-child(4n+3){background:color-mix(in srgb,var(--c2) 22%,transparent)}
+.chips li:nth-child(4n){background:color-mix(in srgb,var(--c4) 24%,transparent)}
+h2.t{position:relative;padding-bottom:18px}
+h2.t::after{content:"";position:absolute;left:0;bottom:0;width:72px;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--c3),var(--c2),var(--amber))}
+.card{--ac:var(--accent);border-top:5px solid var(--ac)}
+.tags{color:var(--ac)}
+.links a{color:var(--ac)}
+.how>div{border-left:4px solid var(--k);padding-left:14px}
+.how>div:nth-child(1){--k:var(--accent)}.how>div:nth-child(2){--k:var(--c3)}.how>div:nth-child(3){--k:var(--c2)}.how>div:nth-child(4){--k:var(--c4)}
+.tl li::before{border-color:var(--c3)}
+.contact{background:linear-gradient(135deg,var(--accent),var(--c3) 60%,var(--c2))}
+@media (max-width:800px){.hero{padding:28px 20px 36px}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header class="top">
   <a class="logo" href="#topo">Julio Cesar</a>
-  <div class="right"><a href="#projetos">Projetos</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a><button class="theme" id="theme" type="button">Tema</button></div>
+  <div class="right"><a href="#sobre">Sobre</a><a href="#projetos">Projetos</a><a href="#contato">Contato</a><button class="theme" id="theme" type="button">Tema</button></div>
 </header>
 <main id="topo">
   <div class="hero">
     <div>
-      <h1>Eu construo do clique ao banco de dados.</h1>
+      <h1>Eu construo do clique ao <span class="hl">banco de dados</span>.</h1>
       <p class="lead">Sou desenvolvedor full stack: cuido da interface, da API, dos dados e da publicação. Clique em “Enviar requisição” para ver uma chamada passar por cada camada da minha stack.</p>
       <div class="btns"><a class="btn main" href="#projetos">Ver projetos</a><a class="btn ghost" href="#contato">Falar comigo</a></div>
       <div class="avail"><i></i>Disponível para novas oportunidades</div>
@@ -109,16 +130,9 @@ footer{padding:0 0 40px;color:var(--muted);font-size:.95rem}
     </div>
   </div>
 
-  <section id="projetos">
-    <h2 class="t">Projetos que estão no ar</h2>
-    <p class="sub">Uma seleção de trabalhos que cobrem front-end, back-end e banco de dados. Filtre pelo tipo de projeto.</p>
-    <div class="filters" id="filters"></div>
-    <div class="grid" id="grid"></div>
-  </section>
-
   <section id="sobre">
     <h2 class="t">Sobre mim</h2>
-    <p class="sub">Transformo ideias em produtos que as pessoas realmente usam, com código simples de ler e fácil de manter.</p>
+    <p class="sub">Sou o Julio, desenvolvedor full stack. Transformo ideias em produtos que as pessoas realmente usam, com código simples de ler e fácil de manter.</p>
     <div class="about">
       <ol class="tl">
         <li><time>2026</time><h3>Desenvolvedor full stack freelancer</h3><p>Dois projetos desenvolvidos para clientes ao longo do ano.</p></li>
@@ -130,6 +144,13 @@ footer{padding:0 0 40px;color:var(--muted);font-size:.95rem}
         <div><dt>Comunicação clara</dt><dd>Explico decisões técnicas em linguagem que todo o time entende.</dd></div>
       </dl>
     </div>
+  </section>
+
+  <section id="projetos">
+    <h2 class="t">Projetos que estão no ar</h2>
+    <p class="sub">Uma seleção de trabalhos que cobrem front-end, back-end e banco de dados. Filtre pelo tipo de projeto.</p>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="grid"></div>
   </section>
 
   <section id="contato" style="border-top:0;padding-top:0">
@@ -170,22 +191,22 @@ run.onclick=play;go(0,false);
 setTimeout(play,700);
 
 var P=[
- {t:"Painel de pedidos",g:"painel-de-pedidos",c:"Full stack",d:"Sistema para acompanhar pedidos em tempo real, com login, níveis de acesso e relatórios exportáveis. Substituiu a conferência manual de planilhas.",s:"Next.js, Node.js, PostgreSQL",a:"Ver online",k:0,u:"projetos/painel-de-pedidos/"},
- {t:"API de agendamentos",g:"api-de-agendamentos",c:"Back-end",d:"API REST que gerencia horários, evita conflitos de agenda e envia lembretes por e-mail. Documentada e com testes automatizados.",s:"Express, Prisma, Redis, Docker",a:"Ver documentação",k:1,u:"projetos/api-de-agendamentos/"},
- {t:"App de finanças pessoais",g:"app-de-financas",c:"Full stack",d:"Aplicativo web para registrar gastos, definir metas e visualizar o mês em gráficos. Funciona bem no celular.",s:"React, TypeScript, Supabase",a:"Ver online",k:2,u:"projetos/app-de-financas/"},
- {t:"Biblioteca de componentes",g:"biblioteca-de-componentes",c:"Front-end",d:"Conjunto de componentes acessíveis e documentados, usado em três produtos diferentes para manter o visual consistente.",s:"React, Storybook, Tailwind CSS",a:"Ver Storybook",k:3,u:"projetos/biblioteca-de-componentes/"}];
+ {t:"Painel de pedidos",g:"painel-de-pedidos",c:"var(--c4)",c:"Full stack",d:"Sistema para acompanhar pedidos em tempo real, com login, níveis de acesso e relatórios exportáveis. Substituiu a conferência manual de planilhas.",s:"Next.js, Node.js, PostgreSQL",a:"Ver online",k:0,u:"projetos/painel-de-pedidos/"},
+ {t:"API de agendamentos",g:"api-de-agendamentos",c:"var(--c3)",c:"Back-end",d:"API REST que gerencia horários, evita conflitos de agenda e envia lembretes por e-mail. Documentada e com testes automatizados.",s:"Express, Prisma, Redis, Docker",a:"Ver documentação",k:1,u:"projetos/api-de-agendamentos/"},
+ {t:"App de finanças pessoais",g:"app-de-financas",c:"var(--c2)",c:"Full stack",d:"Aplicativo web para registrar gastos, definir metas e visualizar o mês em gráficos. Funciona bem no celular.",s:"React, TypeScript, Supabase",a:"Ver online",k:2,u:"projetos/app-de-financas/"},
+ {t:"Biblioteca de componentes",g:"biblioteca-de-componentes",c:"var(--accent)",c:"Front-end",d:"Conjunto de componentes acessíveis e documentados, usado em três produtos diferentes para manter o visual consistente.",s:"React, Storybook, Tailwind CSS",a:"Ver Storybook",k:3,u:"projetos/biblioteca-de-componentes/"}];
 function art(k){
-  var b='<svg viewBox="0 0 400 190" role="img" aria-hidden="true"><rect width="400" height="190" fill="var(--soft)"/>',e="</svg>",x="";
-  if(k==0){[60,100,76,130,104,150].forEach(function(h,i){x+='<rect x="'+(48+i*52)+'" y="'+(160-h)+'" width="32" height="'+h+'" rx="5" fill="'+(i==5?'var(--amber)':'var(--accent)')+'"/>'})}
-  if(k==1){[[40,200],[70,260],[70,180],[100,300],[130,220],[130,120]].forEach(function(r,i){x+='<rect x="'+(i==0?40:i%2?70:70)+'" y="'+(28+i*24)+'" width="'+r[1]+'" height="10" rx="5" fill="'+(i==3?'var(--amber)':'var(--accent)')+'" opacity="'+(i==3?1:.75)+'"/>'});x+='<rect x="300" y="36" width="60" height="100" rx="8" fill="var(--surface)"/>'}
-  if(k==2){x='<circle cx="140" cy="95" r="52" fill="none" stroke="var(--surface)" stroke-width="22"/><circle cx="140" cy="95" r="52" fill="none" stroke="var(--accent)" stroke-width="22" stroke-dasharray="190 400" transform="rotate(-90 140 95)"/><circle cx="140" cy="95" r="52" fill="none" stroke="var(--amber)" stroke-width="22" stroke-dasharray="70 400" stroke-dashoffset="-190" transform="rotate(-90 140 95)"/><rect x="236" y="62" width="120" height="12" rx="6" fill="var(--accent)"/><rect x="236" y="92" width="90" height="12" rx="6" fill="var(--amber)"/><rect x="236" y="122" width="105" height="12" rx="6" fill="var(--surface)"/>'}
-  if(k==3){x='<rect x="40" y="34" width="150" height="42" rx="21" fill="var(--accent)"/><rect x="210" y="34" width="150" height="42" rx="8" fill="var(--surface)"/><rect x="40" y="98" width="320" height="16" rx="8" fill="var(--surface)"/><rect x="40" y="130" width="90" height="26" rx="13" fill="var(--amber)"/><rect x="144" y="130" width="90" height="26" rx="13" fill="var(--surface)"/>'}
+  var b='<svg viewBox="0 0 400 190" role="img" aria-hidden="true"><rect width="400" height="190" style="fill:color-mix(in srgb,var(--ac) 14%,var(--surface))"/>',e="</svg>",x="";
+  if(k==0){[60,100,76,130,104,150].forEach(function(h,i){x+='<rect x="'+(48+i*52)+'" y="'+(160-h)+'" width="32" height="'+h+'" rx="5" fill="'+(i==5?'var(--amber)':'var(--ac)')+'"/>'})}
+  if(k==1){[[40,200],[70,260],[70,180],[100,300],[130,220],[130,120]].forEach(function(r,i){x+='<rect x="'+(i==0?40:i%2?70:70)+'" y="'+(28+i*24)+'" width="'+r[1]+'" height="10" rx="5" fill="'+(i==3?'var(--amber)':'var(--ac)')+'" opacity="'+(i==3?1:.75)+'"/>'});x+='<rect x="300" y="36" width="60" height="100" rx="8" fill="var(--surface)"/>'}
+  if(k==2){x='<circle cx="140" cy="95" r="52" fill="none" stroke="var(--surface)" stroke-width="22"/><circle cx="140" cy="95" r="52" fill="none" stroke="var(--ac)" stroke-width="22" stroke-dasharray="190 400" transform="rotate(-90 140 95)"/><circle cx="140" cy="95" r="52" fill="none" stroke="var(--amber)" stroke-width="22" stroke-dasharray="70 400" stroke-dashoffset="-190" transform="rotate(-90 140 95)"/><rect x="236" y="62" width="120" height="12" rx="6" fill="var(--ac)"/><rect x="236" y="92" width="90" height="12" rx="6" fill="var(--amber)"/><rect x="236" y="122" width="105" height="12" rx="6" fill="var(--surface)"/>'}
+  if(k==3){x='<rect x="40" y="34" width="150" height="42" rx="21" fill="var(--ac)"/><rect x="210" y="34" width="150" height="42" rx="8" fill="var(--surface)"/><rect x="40" y="98" width="320" height="16" rx="8" fill="var(--surface)"/><rect x="40" y="130" width="90" height="26" rx="13" fill="var(--amber)"/><rect x="144" y="130" width="90" height="26" rx="13" fill="var(--surface)"/>'}
   return b+x+e;}
 var cats=["Todos","Full stack","Back-end","Front-end"],fb=document.getElementById("filters"),grid=document.getElementById("grid");
 function show(c){
   [].forEach.call(fb.children,function(b){b.setAttribute("aria-pressed",b.textContent===c?"true":"false")});
   grid.innerHTML=P.filter(function(p){return c=="Todos"||p.c==c}).map(function(p){
-    return '<article class="card">'+art(p.k)+'<div><h3>'+p.t+'</h3><p>'+p.d+'</p><p class="tags">'+p.s+'</p><div class="links"><a '+(p.u?'href="'+p.u+'" target="_blank" rel="noopener"':'href="#"')+'>'+p.a+'</a><a href="https://github.com/juliopydev/meu-portfolio/tree/main/projetos/'+p.g+'" target="_blank" rel="noopener">Código no GitHub</a></div></div></article>'}).join("");
+    return '<article class="card" style="--ac:'+p.c+'">'+art(p.k)+'<div><h3>'+p.t+'</h3><p>'+p.d+'</p><p class="tags">'+p.s+'</p><div class="links"><a '+(p.u?'href="'+p.u+'" target="_blank" rel="noopener"':'href="#"')+'>'+p.a+'</a><a href="https://github.com/juliopydev/meu-portfolio/tree/main/projetos/'+p.g+'" target="_blank" rel="noopener">Código no GitHub</a></div></div></article>'}).join("");
 }
 cats.forEach(function(c){var b=document.createElement("button");b.className="f";b.type="button";b.textContent=c;b.onclick=function(){show(c)};fb.appendChild(b)});
 show("Todos");
